@@ -36,6 +36,13 @@ public class TeacherController {
         return testValue;
     }
 
+    @GetMapping(value = "/{id}")
+    public TeacherDto getTeacher(@PathVariable(name = "id") Long id) {
+        logger.debug("Get teacher with id {}", id);
+
+        return teacherConverter.fromEntityToDto(teacherService.getTeacher(id));
+    }
+
     @GetMapping(value = "")
     public List<TeacherDto> getAll(@RequestParam(name = "firstName", required = false) String firstName,
                                    @RequestParam(name = "lastName", required = false) String lastName){
@@ -58,6 +65,15 @@ public class TeacherController {
         teacherEntity = teacherService.saveTeacher(teacherEntity);
 
         logger.debug("Teacher saved - id {}", teacherEntity.getId());
+        return teacherConverter.fromEntityToDto(teacherEntity);
+    }
+
+    @PutMapping(value = "/{id}")
+    public TeacherDto updateTeacher(@PathVariable(name = "id") Long id,
+                                    @RequestBody TeacherDto teacherDto) {
+        TeacherEntity teacherEntity = teacherConverter.fromDtoToEntity(teacherDto);
+        teacherEntity = teacherService.updateTeacher(id, teacherEntity);
+
         return teacherConverter.fromEntityToDto(teacherEntity);
     }
 

@@ -1,17 +1,18 @@
 package com.pocu.catalog.service;
 
 import com.pocu.catalog.entity.TeacherEntity;
+import com.pocu.catalog.exception.TeacherNotFoundException;
 import com.pocu.catalog.repository.TeacherRepository;
-import com.pocu.catalog.web.dto.TeacherDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service                //this class is a Service bean
 public class TeacherService {
 
+    private final static String TEACHER_NOT_FOUND_CODE = "TEACHER_NOT_FOUND";
     private final TeacherRepository teacherRepository;
 
     @Autowired
@@ -48,5 +49,22 @@ public class TeacherService {
 
     public void deleteAllTeachers() {
         teacherRepository.deleteAll();
+    }
+
+    public TeacherEntity getTeacher(Long id) {
+        Optional<TeacherEntity> teacherOptional = teacherRepository.findById(id);
+        if (teacherOptional.isPresent()) {
+            return teacherOptional.get();
+        } else {
+            throw new TeacherNotFoundException("Teacher with id " + id + "not found", TEACHER_NOT_FOUND_CODE);
+        }
+    }
+
+    public TeacherEntity updateTeacher(Long id, TeacherEntity teacherToUpdate) {
+        TeacherEntity storedTeacher = getTeacher(id);
+        teacherToUpdate.setId(id);
+
+        return teacherRepository.save(teacherToUpdate);
+
     }
 }
