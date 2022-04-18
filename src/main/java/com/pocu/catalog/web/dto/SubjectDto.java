@@ -1,6 +1,6 @@
 package com.pocu.catalog.web.dto;
 
-public class SubjectDto {
+public class SubjectDto extends BaseDto{
 
     private Long id;
     private String name;

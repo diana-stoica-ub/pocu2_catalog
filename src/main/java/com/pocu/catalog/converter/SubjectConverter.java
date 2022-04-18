@@ -4,11 +4,8 @@ import com.pocu.catalog.entity.SubjectEntity;
 import com.pocu.catalog.web.dto.SubjectDto;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
-public class SubjectConverter {
+public class SubjectConverter extends BaseConverter<SubjectDto, SubjectEntity> {
 
     public SubjectDto fromEntityToDto(SubjectEntity subjectEntity) {
         SubjectDto subjectDto = new SubjectDto();
@@ -29,20 +26,4 @@ public class SubjectConverter {
 
         return subjectEntity;
     }
-
-    public List<SubjectDto> fromEntitiesToDtos(List<SubjectEntity> subjectEntities) {
-        return subjectEntities
-                .stream()
-                .map(entity -> fromEntityToDto(entity))
-                .collect(Collectors.toList());
-    }
-
-    public List<SubjectEntity> fromDtosToEntities(List<SubjectDto> subjectDtos) {
-        return subjectDtos
-                .stream()
-                .map(dto -> fromDtoToEntity(dto))
-                .collect(Collectors.toList());
-    }
-
-
 }

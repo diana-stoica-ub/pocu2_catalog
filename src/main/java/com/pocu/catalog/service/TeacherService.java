@@ -1,32 +1,52 @@
 package com.pocu.catalog.service;
 
-import com.pocu.catalog.web.dto.SubjectDto;
+import com.pocu.catalog.entity.TeacherEntity;
+import com.pocu.catalog.repository.TeacherRepository;
 import com.pocu.catalog.web.dto.TeacherDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service                //this class is a Service bean
 public class TeacherService {
 
-    public TeacherDto getTeacher() {                //dummy method to create a teacher object; will be removed after database integration
-        TeacherDto teacherDto = new TeacherDto();
-        teacherDto.setId(1L);
-        teacherDto.setFirstName("John");
-        teacherDto.setLastName("Doe");
-        teacherDto.setDateOfBirth(LocalDate.of(1990,2, 20));
-        teacherDto.setSubjectDto(getSubject());
+    private final TeacherRepository teacherRepository;
 
-        return teacherDto;
+    @Autowired
+    public TeacherService(TeacherRepository teacherRepository) {
+        this.teacherRepository = teacherRepository;
     }
 
-    private SubjectDto getSubject() {        //dummy method to create a teacher object; will be removed after database integration
-        SubjectDto dto = new SubjectDto();
-        dto.setId(1L);
-        dto.setCreditPoints(5);
-        dto.setName("Math");
-        dto.setOptional(true);
+    public List<TeacherEntity> getAllTeachers() {
+        return teacherRepository.findAll();
+    }
 
-        return dto;
+    //firstName and lastName can be both set up or not
+    public List<TeacherEntity> getAllTeachersByName(String firstName, String lastName) {
+        if (firstName != null && lastName != null) {
+            return teacherRepository.findByFirstNameAndLastName(firstName, lastName);
+        } else if (firstName != null) {
+            return teacherRepository.findByFirstName(firstName);
+        } else {
+            return teacherRepository.findByLastName(lastName);
+        }
+    }
+
+    public TeacherEntity saveTeacher(TeacherEntity teacherEntity) {
+        return teacherRepository.save(teacherEntity);
+    }
+
+    public void deleteTeacher(Long id) {
+        teacherRepository.deleteById(id);
+    }
+
+    public void deleteTeacherByCnp(String cnp) {
+        teacherRepository.deleteByCnp(cnp);
+    }
+
+    public void deleteAllTeachers() {
+        teacherRepository.deleteAll();
     }
 }
