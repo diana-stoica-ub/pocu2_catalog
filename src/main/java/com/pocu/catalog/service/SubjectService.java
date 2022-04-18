@@ -3,16 +3,16 @@ package com.pocu.catalog.service;
 import com.pocu.catalog.entity.SubjectEntity;
 import com.pocu.catalog.exception.SubjectNotFoundException;
 import com.pocu.catalog.repository.SubjectRepository;
-import com.pocu.catalog.web.dto.SubjectDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SubjectService {
+
+    private static final String SUBJECT_NOT_FOUND_CODE = "SUBJECT_NOT_FOUND";
 
     private final SubjectRepository subjectRepository;
 
@@ -26,7 +26,7 @@ public class SubjectService {
         if (subjectEntityOptional.isPresent()) {
             return subjectEntityOptional.get();
         } else {
-            throw new SubjectNotFoundException();
+            throw new SubjectNotFoundException("Get subject failed - subject not found", SUBJECT_NOT_FOUND_CODE);
         }
     }
 
@@ -44,7 +44,7 @@ public class SubjectService {
             updatedEntity.setId(id);
             return subjectRepository.save(updatedEntity);
         } else {
-            throw new SubjectNotFoundException();
+            throw new SubjectNotFoundException("Update subject failed - subject not found" , SUBJECT_NOT_FOUND_CODE);
         }
     }
 
