@@ -32,24 +32,36 @@ public class ControllerExceptionHandler {
     public ErrorDto handleSubjectNotFound(HttpServletRequest request, Exception exception) {
         SubjectNotFoundException subjectNotFoundException = (SubjectNotFoundException) exception;
         logger.warn("Not found exception", exception);
-        return new ErrorDto(subjectNotFoundException.getErrorCode(), subjectNotFoundException.getMessage(),
-                HttpStatus.NOT_FOUND.value());
+
+        return ErrorDto.builder()
+                .withErrorCode(subjectNotFoundException.getErrorCode())
+                .withMessage(subjectNotFoundException.getMessage())
+                .withStatus(HttpStatus.NOT_FOUND.value())
+                .build();
     }
 
     @ExceptionHandler({EmptyResultDataAccessException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorDto handleResultDataEmpty(HttpServletRequest request, Exception exception) {
         logger.warn("No entity found in database", exception);
-        return new ErrorDto(ENTITY_NOT_FOUND_CODE, "No entity/entities found in database",
-                HttpStatus.NOT_FOUND.value());
+
+        return ErrorDto.builder()
+                .withErrorCode(ENTITY_NOT_FOUND_CODE)
+                .withMessage("No entity/entities found in database")
+                .withStatus(HttpStatus.NOT_FOUND.value())
+                .build();
     }
 
     @ExceptionHandler({MethodNotSupportedException.class})
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDto handleMethodNotSupported(HttpServletRequest request, Exception exception) {
         logger.warn("Method not supported", exception);
-        return new ErrorDto(INTERNAL_SERVER_ERROR_CODE, "Method not supported",
-                HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        return ErrorDto.builder()
+                .withErrorCode(INTERNAL_SERVER_ERROR_CODE)
+                .withMessage("Method not supported")
+                .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .build();
     }
 
     @ExceptionHandler({MissingServletRequestParameterException.class})
@@ -57,7 +69,11 @@ public class ControllerExceptionHandler {
     public ErrorDto handleMissingRequestParam(HttpServletRequest request, Exception exception) {
         logger.warn("Missing request parameter", exception);
 
-        return new ErrorDto(MISSING_REQUEST_PARAM_CODE, exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return ErrorDto.builder()
+                .withErrorCode(MISSING_REQUEST_PARAM_CODE)
+                .withMessage(exception.getMessage())
+                .withStatus(HttpStatus.BAD_REQUEST.value())
+                .build();
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
@@ -71,16 +87,22 @@ public class ControllerExceptionHandler {
             message.append(error.getDefaultMessage());
             message.append(";");
         }
-
-        return new ErrorDto(VALIDATION_FAILED_CODE, message.toString(), HttpStatus.BAD_REQUEST.value());
+        return ErrorDto.builder()
+                .withErrorCode(VALIDATION_FAILED_CODE)
+                .withMessage(message.toString())
+                .withStatus(HttpStatus.BAD_REQUEST.value())
+                .build();
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDto handleException(HttpServletRequest request, Exception exception) {
         logger.error("Internal server error", exception);
-        return new ErrorDto(INTERNAL_SERVER_ERROR_CODE, "An error occurred",
-                HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ErrorDto.builder()
+                .withErrorCode(INTERNAL_SERVER_ERROR_CODE)
+                .withMessage("An error occurred")
+                .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .build();
     }
 
 
