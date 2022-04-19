@@ -18,5 +18,7 @@ public interface TeacherRepository extends PagingAndSortingRepository<TeacherEnt
 
     List<TeacherEntity> findBySalaryGreaterThan(Long salary, Pageable pageable);
 
+    Long countAllBySalaryLessThan(Long salary);
+
     void deleteByCnp(String cnp);
 }

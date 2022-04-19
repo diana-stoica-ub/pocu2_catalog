@@ -27,10 +27,10 @@ public class ControllerExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
-    @ExceptionHandler({SubjectNotFoundException.class})
+    @ExceptionHandler({SubjectNotFoundException.class, StudentNotFoundException.class, TeacherNotFoundException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorDto handleSubjectNotFound(HttpServletRequest request, Exception exception) {
-        SubjectNotFoundException subjectNotFoundException = (SubjectNotFoundException) exception;
+        BaseException subjectNotFoundException = (BaseException) exception;
         logger.warn("Not found exception", exception);
 
         return ErrorDto.builder()

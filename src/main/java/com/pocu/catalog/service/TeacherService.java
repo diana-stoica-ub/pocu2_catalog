@@ -89,4 +89,8 @@ public class TeacherService {
         return teacherRepository.findBySalaryGreaterThan(minSalary, PageRequest.of(page, size,
                 Sort.by("salary").descending().and(Sort.by("firstName").ascending())));
     }
+
+    public Long countTeachersWithSmallSalary(Long maxSalary) {
+        return teacherRepository.countAllBySalaryLessThan(maxSalary);
+    }
 }

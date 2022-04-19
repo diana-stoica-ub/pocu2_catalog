@@ -56,6 +56,11 @@ public class TeacherController {
         return teacherBasicDetailsConverter.fromEntityToDto(teacherService.getTeacher(id));
     }
 
+    @GetMapping(value = "/maxSalary/{maxSalary}")
+    public Long countTeachersWithMaxSalary(@PathVariable Long maxSalary) {
+        return teacherService.countTeachersWithSmallSalary(maxSalary);
+    }
+
     @GetMapping(value = "")
     public List<TeacherDto> getAll(@RequestParam(name = "firstName", required = false) String firstName,
                                    @RequestParam(name = "lastName", required = false) String lastName,
