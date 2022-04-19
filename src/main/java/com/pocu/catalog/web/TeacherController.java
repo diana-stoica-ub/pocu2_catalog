@@ -58,13 +58,18 @@ public class TeacherController {
 
     @GetMapping(value = "")
     public List<TeacherDto> getAll(@RequestParam(name = "firstName", required = false) String firstName,
-                                   @RequestParam(name = "lastName", required = false) String lastName){
+                                   @RequestParam(name = "lastName", required = false) String lastName,
+                                   @RequestParam(name = "minSalary", required = false) Long minSalary,
+                                   @RequestParam(name = "page") Integer page,
+                                   @RequestParam(name = "size", required = false, defaultValue = "5") Integer size) {
         List<TeacherEntity> teacherEntities;
 
         if (firstName != null || lastName != null) {
             teacherEntities = teacherService.getAllTeachersByName(firstName, lastName);
+        } else if (minSalary != null) {
+            teacherEntities = teacherService.getAllTeachersBySalary(minSalary, page, size);
         } else {
-            teacherEntities = teacherService.getAllTeachers();
+            teacherEntities = teacherService.getAllTeachers(page, size);
         }
 
         return teacherConverter.fromEntitiesToDtos(teacherEntities);

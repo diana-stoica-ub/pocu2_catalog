@@ -5,6 +5,8 @@ import com.pocu.catalog.entity.TeacherEntity;
 import com.pocu.catalog.exception.TeacherNotFoundException;
 import com.pocu.catalog.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +25,9 @@ public class TeacherService {
         this.subjectService = subjectService;
     }
 
-    public List<TeacherEntity> getAllTeachers() {
-        return teacherRepository.findAll();
+    public List<TeacherEntity> getAllTeachers(Integer page, Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return teacherRepository.findAll(pageRequest).getContent();
     }
 
     //firstName and lastName can be both set up or not
@@ -78,5 +81,12 @@ public class TeacherService {
         teacherEntity.setSubject(subjectEntity);
 
         return teacherRepository.save(teacherEntity);
+    }
+
+
+    public List<TeacherEntity> getAllTeachersBySalary(Long minSalary, Integer page, Integer size) {
+
+        return teacherRepository.findBySalaryGreaterThan(minSalary, PageRequest.of(page, size,
+                Sort.by("salary").descending().and(Sort.by("firstName").ascending())));
     }
 }

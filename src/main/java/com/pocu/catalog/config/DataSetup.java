@@ -23,11 +23,16 @@ public class DataSetup implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        saveTeacher("FirstName1", "LastName1", "123456790");
-        saveTeacher("FirstName2", "LastName2", "123456791");
-        saveTeacher("FirstName3", "LastName3", "123456792");
-        saveTeacher("FirstName4", "LastName4", "123456793");
-        saveTeacher("FirstName5", "LastName5", "123456794");
+        saveTeacher("FirstName1", "LastName1", "123456790", 10L);
+        saveTeacher("FirstName2", "LastName2", "123456791", 15L);
+        saveTeacher("FirstName3", "LastName3", "123456792", 22L);
+        saveTeacher("FirstName4", "LastName4", "123456793", 22L);
+        saveTeacher("FirstName5", "LastName5", "123456794", 3L);
+        saveTeacher("FirstName6", "LastName6", "123456790", 12L);
+        saveTeacher("FirstName7", "LastName7", "123456791", 5L);
+        saveTeacher("FirstName8", "LastName8", "123456792", 22L);
+        saveTeacher("FirstName9", "LastName9", "123456793", 4L);
+        saveTeacher("FirstName10", "LastName10", "123456794", 2L);
 
         saveSubject("Subject1", true, 5);
         saveSubject("Subject2", true, 2);
@@ -45,11 +50,12 @@ public class DataSetup implements ApplicationRunner {
         subjectService.saveSubject(subjectEntity);
     }
 
-    private void saveTeacher(String firstName, String lastName, String cnp) {
+    private void saveTeacher(String firstName, String lastName, String cnp, Long salary) {
         TeacherEntity teacherEntity = new TeacherEntity();
         teacherEntity.setFirstName(firstName);
         teacherEntity.setLastName(lastName);
         teacherEntity.setCnp(cnp);
+        teacherEntity.setSalary(salary);
 
         teacherService.saveTeacher(teacherEntity);
     }

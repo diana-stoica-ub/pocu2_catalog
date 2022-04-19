@@ -25,6 +25,7 @@ public class TeacherConverter extends BaseConverter<TeacherDto, TeacherEntity> {
         dto.setDateOfBirth(entity.getBirthDate());
         dto.setSubjects(subjectConverter.fromEntitiesToDtos(entity.getSubjects()));
         dto.setCnp(entity.getCnp());
+        dto.setSalary(entity.getSalary());
         return dto;
     }
 
@@ -37,6 +38,7 @@ public class TeacherConverter extends BaseConverter<TeacherDto, TeacherEntity> {
         entity.setCnp(dto.getCnp());
         entity.setBirthDate(dto.getDateOfBirth());
         entity.setSubjects(subjectConverter.fromDtosToEntities(dto.getSubjects()));
+        entity.setSalary(dto.getSalary());
         return entity;
     }
 }

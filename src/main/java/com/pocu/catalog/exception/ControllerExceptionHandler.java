@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,7 @@ public class ControllerExceptionHandler {
     private static final String INTERNAL_SERVER_ERROR_CODE = "INTERNAL_SERVER_ERROR";
     private static final String ENTITY_NOT_FOUND_CODE = "ENTITY_NOT_FOUND";
     private static final String VALIDATION_FAILED_CODE = "VALIDATION_FAILED";
+    private static final String MISSING_REQUEST_PARAM_CODE = "MISSING_REQUEST_PARAM";
 
     private Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
@@ -48,6 +50,14 @@ public class ControllerExceptionHandler {
         logger.warn("Method not supported", exception);
         return new ErrorDto(INTERNAL_SERVER_ERROR_CODE, "Method not supported",
                 HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorDto handleMissingRequestParam(HttpServletRequest request, Exception exception) {
+        logger.warn("Missing request parameter", exception);
+
+        return new ErrorDto(MISSING_REQUEST_PARAM_CODE, exception.getMessage(), HttpStatus.BAD_REQUEST.value());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
