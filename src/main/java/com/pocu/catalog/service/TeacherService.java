@@ -1,5 +1,6 @@
 package com.pocu.catalog.service;
 
+import com.pocu.catalog.entity.SubjectEntity;
 import com.pocu.catalog.entity.TeacherEntity;
 import com.pocu.catalog.exception.TeacherNotFoundException;
 import com.pocu.catalog.repository.TeacherRepository;
@@ -14,10 +15,12 @@ public class TeacherService {
 
     private final static String TEACHER_NOT_FOUND_CODE = "TEACHER_NOT_FOUND";
     private final TeacherRepository teacherRepository;
+    private final SubjectService subjectService;
 
     @Autowired
-    public TeacherService(TeacherRepository teacherRepository) {
+    public TeacherService(TeacherRepository teacherRepository, SubjectService subjectService) {
         this.teacherRepository = teacherRepository;
+        this.subjectService = subjectService;
     }
 
     public List<TeacherEntity> getAllTeachers() {
@@ -66,5 +69,14 @@ public class TeacherService {
 
         return teacherRepository.save(teacherToUpdate);
 
+    }
+
+    public TeacherEntity assignSubjectToTeacher(Long teacherId, Long subjectId) {
+        SubjectEntity subjectEntity = subjectService.getSubject(subjectId);
+        TeacherEntity teacherEntity = getTeacher(teacherId);
+
+        teacherEntity.setSubject(subjectEntity);
+
+        return teacherRepository.save(teacherEntity);
     }
 }

@@ -1,10 +1,17 @@
 package com.pocu.catalog.web.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class SubjectDto extends BaseDto{
 
     private Long id;
+
+    @NotEmpty(message = "name.cannot.be.empty")
     private String name;
+    @NotNull(message = "optional.cannot.be.empty")
     private Boolean optional;
+    @NotNull(message = "creditPoints.cannot.be.empty")
     private Integer creditPoints;
 
     public Long getId() {

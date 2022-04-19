@@ -1,39 +1,27 @@
 package com.pocu.catalog.web.dto;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
-public class TeacherDto extends BaseDto {
+public class TeacherDto extends TeacherBasicDetailsDto {
 
-    private Long id;
-    private String firstName;
-    private String lastName;
+    @NotEmpty(message = "cnp.cannot.be.empty")
+    @Size(min = 13, max = 13, message = "cnp.size.invalid")
+    @Pattern(regexp = "[0-9]+", message = "cnp.invalid")
     private String cnp;
+    @NotNull(message = "dateOfBirth.cannot.be.null")
     private LocalDate dateOfBirth;
-    private List<SubjectDto> subjects;
+    @NotNull(message = "salary.cannot.be.null")
+    @Min(value = 1, message = "salary.cannot.be.negative")
+    private Long salary;
 
-    public Long getId() {
-        return id;
+    public String getCnp() {
+        return cnp;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setCnp(String cnp) {
+        this.cnp = cnp;
     }
 
     public LocalDate getDateOfBirth() {
@@ -44,19 +32,20 @@ public class TeacherDto extends BaseDto {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public List<SubjectDto> getSubjects() {
-        return subjects;
+    public Long getSalary() {
+        return salary;
     }
 
-    public void setSubjects(List<SubjectDto> subjects) {
-        this.subjects = subjects;
+    public void setSalary(Long salary) {
+        this.salary = salary;
     }
 
-    public String getCnp() {
-        return cnp;
-    }
-
-    public void setCnp(String cnp) {
-        this.cnp = cnp;
+    @Override
+    public String toString() {
+        return "TeacherDto{" +
+                "cnp='" + cnp + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", salary=" + salary +
+                "} " + super.toString();
     }
 }

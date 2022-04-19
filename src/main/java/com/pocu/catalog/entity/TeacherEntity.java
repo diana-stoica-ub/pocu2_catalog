@@ -2,6 +2,7 @@ package com.pocu.catalog.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -69,6 +70,13 @@ public class TeacherEntity extends BaseEntity {
 
     public List<SubjectEntity> getSubjects() {
         return subjects;
+    }
+
+    public void setSubject(SubjectEntity subject) {
+        if (this.subjects == null) {
+            this.subjects = new ArrayList<>();
+        }
+        this.subjects.add(subject);
     }
 
     public void setSubjects(List<SubjectEntity> subjects) {
