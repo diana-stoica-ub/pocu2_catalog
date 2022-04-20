@@ -13,6 +13,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
 
 @Component
 @ConditionalOnExpression("${insert.test.data}")
@@ -86,6 +89,7 @@ public class DataSetup implements ApplicationRunner {
         studentEntity.setLastName(lastName);
         studentEntity.setAverageGrade(averageGrade);
 
+        studentEntity.setEnrolledSubjects(Collections.singletonList(subjectService.getSubject(1L)));
         studentService.saveStudent(studentEntity);
     }
 }
