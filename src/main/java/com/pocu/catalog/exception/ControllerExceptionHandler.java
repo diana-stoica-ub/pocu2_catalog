@@ -76,6 +76,18 @@ public class ControllerExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler({StudentAlreadyEnrolledException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorDto handleStudentAlreadyEnrolled(HttpServletRequest request, Exception exception) {
+        logger.warn("Student already enrolled exception", exception);
+
+        return ErrorDto.builder()
+                .withErrorCode(((BaseException) exception).getErrorCode())
+                .withMessage(exception.getMessage())
+                .withStatus(HttpStatus.BAD_REQUEST.value())
+                .build();
+    }
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorDto handleArgumentNotValid(HttpServletRequest request, Exception exception) {

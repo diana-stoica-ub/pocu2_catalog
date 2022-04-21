@@ -2,7 +2,6 @@ package com.pocu.catalog.web.dto;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.List;
 
 public class TeacherDto extends TeacherBasicDetailsDto {
 

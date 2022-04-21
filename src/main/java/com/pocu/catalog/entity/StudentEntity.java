@@ -1,9 +1,9 @@
 package com.pocu.catalog.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -17,6 +17,14 @@ public class StudentEntity extends BaseEntity {
 
     @Column(name = "average_grade")
     private BigDecimal averageGrade;
+
+    @ManyToMany
+    @JoinTable(
+            name = "subject_enrollment",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<SubjectEntity> enrolledSubjects;
 
     public String getFirstName() {
         return firstName;
@@ -42,6 +50,14 @@ public class StudentEntity extends BaseEntity {
         this.averageGrade = averageGrade;
     }
 
+    public List<SubjectEntity> getEnrolledSubjects() {
+        return enrolledSubjects;
+    }
+
+    public void setEnrolledSubjects(List<SubjectEntity> enrolledSubjects) {
+        this.enrolledSubjects = enrolledSubjects;
+    }
+
     @Override
     public String toString() {
         return "StudentEntity{" +
@@ -49,5 +65,19 @@ public class StudentEntity extends BaseEntity {
                 ", lastName='" + lastName + '\'' +
                 ", averageGrade=" + averageGrade +
                 "} " + super.toString();
+    }
+
+    public void setEnrolledSubject(SubjectEntity subject) {
+        if (this.enrolledSubjects == null) {
+            this.enrolledSubjects = new ArrayList<>();
+        }
+        this.enrolledSubjects.add(subject);
+    }
+
+    public void removeEnrolledSubject(SubjectEntity subject) {
+        if (this.enrolledSubjects == null || this.enrolledSubjects.isEmpty()) {
+            return;
+        }
+        this.enrolledSubjects.remove(subject);
     }
 }

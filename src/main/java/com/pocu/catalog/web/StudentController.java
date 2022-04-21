@@ -50,4 +50,32 @@ public class StudentController {
 
         return studentConverter.fromEntityToDto(studentEntity);
     }
+
+    @PostMapping(value = "/{id}/enrollment/{status}/{subjectId}")
+    public StudentDto enrollStudentToSubject(@PathVariable(name = "id") Long id,
+                                             @PathVariable(name = "subjectId") Long subjectId,
+                                             @PathVariable(name = "status") Boolean status) {
+        logger.debug("Enroll student {} to subject {} status {}", id, subjectId, status);
+
+        StudentEntity studentEntity = studentService.enroll(id, subjectId, status);
+
+        return studentConverter.fromEntityToDto(studentEntity);
+    }
+
+    @PutMapping(value = "/{id}")
+    public StudentDto updateStudent(@PathVariable(name = "id") Long id,
+                              @Valid @RequestBody StudentDto studentDto) {
+        logger.debug("Updating student with id {}", id);
+        StudentEntity studentEntity = studentService.updateStudent(id, studentConverter.fromDtoToEntity(studentDto));
+
+        return studentConverter.fromEntityToDto(studentEntity);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteStudent(@PathVariable(name = "id") Long id) {
+        logger.debug("Delete student with id {}", id);
+
+        studentService.deleteStudent(id);
+    }
+
 }

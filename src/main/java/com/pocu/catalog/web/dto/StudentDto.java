@@ -2,6 +2,7 @@ package com.pocu.catalog.web.dto;
 
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class StudentDto extends BaseDto {
 
@@ -10,6 +11,7 @@ public class StudentDto extends BaseDto {
     @NotEmpty(message = "lastName.cannot.be.null")
     private String lastName;
     private BigDecimal averageGrade;
+    private List<SubjectDto> enrolledSubjects;
 
     public String getFirstName() {
         return firstName;
@@ -33,6 +35,14 @@ public class StudentDto extends BaseDto {
 
     public void setAverageGrade(BigDecimal averageGrade) {
         this.averageGrade = averageGrade;
+    }
+
+    public List<SubjectDto> getEnrolledSubjects() {
+        return enrolledSubjects;
+    }
+
+    public void setEnrolledSubjects(List<SubjectDto> enrolledSubjects) {
+        this.enrolledSubjects = enrolledSubjects;
     }
 
     @Override

@@ -5,22 +5,12 @@ import javax.validation.constraints.NotNull;
 
 public class SubjectDto extends BaseDto{
 
-    private Long id;
-
     @NotEmpty(message = "name.cannot.be.empty")
     private String name;
     @NotNull(message = "optional.cannot.be.empty")
     private Boolean optional;
     @NotNull(message = "creditPoints.cannot.be.empty")
     private Integer creditPoints;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -44,5 +34,14 @@ public class SubjectDto extends BaseDto{
 
     public void setCreditPoints(Integer creditPoints) {
         this.creditPoints = creditPoints;
+    }
+
+    @Override
+    public String toString() {
+        return "SubjectDto{" +
+                "name='" + name + '\'' +
+                ", optional=" + optional +
+                ", creditPoints=" + creditPoints +
+                "} " + super.toString();
     }
 }
